@@ -44,9 +44,14 @@ abstract class AbstractCustomer {
         this.sin = sin;
     }
 }
+interface AccountOperations {
+    void deposit(double amount);
+    void withdrawal(double amount);
+    void displayBalance();
+}
 
-// Checking account class extending AbstractCustomer
-class CheckingAccount extends AbstractCustomer {
+// Checking account class extending AbstractCustomer implements AccountOperations
+class CheckingAccount extends AbstractCustomer implements AccountOperations {
     private double balance;
 
     // Constructor to initialize checking account
@@ -63,10 +68,13 @@ class CheckingAccount extends AbstractCustomer {
 
     // Method to withdraw money from checking account
     public void withdrawal(double withdrawalAmount) {
-        if (withdrawalAmount > 0) {
+        if (withdrawalAmount > 0 && balance >= withdrawalAmount) {
             balance -= withdrawalAmount;
+        } else {
+            System.out.println("Withdrawal failed");
         }
     }
+
 
     // Method to display checking account balance
     public void displayBalance() {
@@ -100,8 +108,8 @@ class CheckingAccount extends AbstractCustomer {
 
 }
 
-// Savings account class extending CheckingAccount
-class SavingsAccount extends CheckingAccount {
+// Savings account class extending AbstractCustomer implements AccountOperations
+class SavingsAccount extends AbstractCustomer implements AccountOperations{
     private double savingBalance;
     private static final double WITHDRAWAL_FEE = 2;
 
